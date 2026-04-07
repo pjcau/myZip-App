@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Score } from "@/types";
 
 export default function LeaderboardPage() {
@@ -32,12 +33,12 @@ export default function LeaderboardPage() {
       <div className="w-full max-w-lg mt-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-white">Leaderboard</h1>
-          <a
+          <Link
             href="/"
             className="py-2 px-4 rounded-xl bg-purple-500 hover:bg-purple-400 text-white font-medium transition-all text-sm"
           >
             Play
-          </a>
+          </Link>
         </div>
 
         {loading ? (

@@ -1,27 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import NameEntry from "@/components/NameEntry";
 import GameBoard from "@/components/GameBoard";
 
-type Screen = "name" | "game";
+function getSessionName(): string {
+  if (typeof window === "undefined") return "";
+  return sessionStorage.getItem("playerName") || "";
+}
+
+const subscribe = () => () => {};
 
 export default function Home() {
-  const [screen, setScreen] = useState<Screen>("name");
-  const [playerName, setPlayerName] = useState("");
-
-  useEffect(() => {
-    const saved = sessionStorage.getItem("playerName");
-    if (saved) {
-      setPlayerName(saved);
-      setScreen("game");
-    }
-  }, []);
+  const savedName = useSyncExternalStore(subscribe, getSessionName, () => "");
+  const [playerName, setPlayerName] = useState(savedName);
+  const [playing, setPlaying] = useState(!!savedName);
 
   const handleNameSubmit = (name: string) => {
     sessionStorage.setItem("playerName", name);
     setPlayerName(name);
-    setScreen("game");
+    setPlaying(true);
   };
 
   const handleGameEnd = async (
@@ -47,7 +45,7 @@ export default function Home() {
     }
   };
 
-  if (screen === "name") {
+  if (!playing) {
     return <NameEntry onSubmit={handleNameSubmit} />;
   }
 

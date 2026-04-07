@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Puzzle, Group, GameState } from "@/types";
+import Link from "next/link";
+import { GameState } from "@/types";
 import { shuffleWords, calculateScore, getRandomPuzzle } from "@/lib/puzzles";
 import GameGrid from "./GameGrid";
 
@@ -10,18 +11,12 @@ interface GameBoardProps {
   onGameEnd: (score: number, mistakes: number, time: number, puzzleId: string) => void;
 }
 
-export default function GameBoard({ playerName, onGameEnd }: GameBoardProps) {
-  const [gameState, setGameState] = useState<GameState | null>(null);
-  const [words, setWords] = useState<string[]>([]);
-  const [message, setMessage] = useState("");
-  const [shaking, setShaking] = useState(false);
-  const [elapsed, setElapsed] = useState(0);
-
-  const initGame = useCallback(() => {
-    const puzzle = getRandomPuzzle();
-    const shuffled = shuffleWords(puzzle);
-    setWords(shuffled);
-    setGameState({
+function createInitialState(): { gameState: GameState; words: string[] } {
+  const puzzle = getRandomPuzzle();
+  const shuffled = shuffleWords(puzzle);
+  return {
+    words: shuffled,
+    gameState: {
       puzzle,
       selectedWords: [],
       foundGroups: [],
@@ -30,14 +25,25 @@ export default function GameBoard({ playerName, onGameEnd }: GameBoardProps) {
       startTime: Date.now(),
       endTime: null,
       isComplete: false,
-    });
+    },
+  };
+}
+
+export default function GameBoard({ playerName, onGameEnd }: GameBoardProps) {
+  const [{ gameState: initialGameState, words: initialWords }] = useState(createInitialState);
+  const [gameState, setGameState] = useState<GameState>(initialGameState);
+  const [words, setWords] = useState<string[]>(initialWords);
+  const [message, setMessage] = useState("");
+  const [shaking, setShaking] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
+
+  const initGame = useCallback(() => {
+    const initial = createInitialState();
+    setWords(initial.words);
+    setGameState(initial.gameState);
     setMessage("");
     setElapsed(0);
   }, []);
-
-  useEffect(() => {
-    initGame();
-  }, [initGame]);
 
   useEffect(() => {
     if (!gameState || gameState.isComplete) return;
@@ -211,12 +217,12 @@ export default function GameBoard({ playerName, onGameEnd }: GameBoardProps) {
               >
                 Play Again
               </button>
-              <a
+              <Link
                 href="/leaderboard"
                 className="py-3 px-6 rounded-xl border border-white/20 text-white hover:bg-white/10 transition-all font-medium"
               >
                 Leaderboard
-              </a>
+              </Link>
             </div>
           </div>
         )}

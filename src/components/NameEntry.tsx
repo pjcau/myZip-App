@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 interface NameEntryProps {
   onSubmit: (name: string) => void;
@@ -57,12 +58,12 @@ export default function NameEntry({ onSubmit }: NameEntryProps) {
         </form>
 
         <div className="mt-6 text-center">
-          <a
+          <Link
             href="/leaderboard"
             className="text-purple-300 hover:text-white transition-colors text-sm underline underline-offset-4"
           >
             View Leaderboard
-          </a>
+          </Link>
         </div>
       </div>
     </div>

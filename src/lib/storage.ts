@@ -4,7 +4,7 @@ import { Score } from "@/types";
 const SCORES_BLOB_KEY = "scores.json";
 
 // In-memory fallback for local dev without Blob token
-let inMemoryScores: Score[] = [];
+const inMemoryScores: Score[] = [];
 
 function hasBlobToken(): boolean {
   return !!process.env.BLOB_READ_WRITE_TOKEN;
