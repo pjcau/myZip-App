@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Cell } from "@/types";
 import { generatePuzzle, calculateScore } from "@/lib/puzzles";
 import GameGrid from "./GameGrid";
+import Tutorial from "./Tutorial";
 
 interface GameBoardProps {
   playerName: string;
@@ -66,6 +67,7 @@ export default function GameBoard({ playerName, onGameEnd }: GameBoardProps) {
   const [elapsed, setElapsed] = useState(0);
   const [startTime, setStartTime] = useState(() => Date.now());
   const [message, setMessage] = useState("");
+  const [showTutorial, setShowTutorial] = useState(false);
   const lastCell = useRef<string>("");
 
   const initGame = useCallback((size: number) => {
@@ -182,15 +184,26 @@ export default function GameBoard({ playerName, onGameEnd }: GameBoardProps) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950 p-4">
+      {showTutorial && <Tutorial onClose={() => setShowTutorial(false)} />}
+
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold text-white">⚡ myZip</h1>
-            <p className="text-purple-300 text-sm">
-              Playing as{" "}
-              <span className="font-semibold text-white">{playerName}</span>
-            </p>
+          <div className="flex items-center gap-2">
+            <div>
+              <h1 className="text-2xl font-bold text-white">⚡ myZip</h1>
+              <p className="text-purple-300 text-sm">
+                Playing as{" "}
+                <span className="font-semibold text-white">{playerName}</span>
+              </p>
+            </div>
+            <button
+              onClick={() => setShowTutorial(true)}
+              className="ml-1 w-7 h-7 rounded-full border border-white/20 text-purple-300 hover:text-white hover:bg-white/10 transition-all text-sm font-bold flex items-center justify-center"
+              title="How to play"
+            >
+              ?
+            </button>
           </div>
           <div className="text-right">
             <div className="text-2xl font-mono text-white">

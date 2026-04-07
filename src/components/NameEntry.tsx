@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Tutorial from "./Tutorial";
 
 interface NameEntryProps {
   onSubmit: (name: string) => void;
@@ -9,6 +10,7 @@ interface NameEntryProps {
 
 export default function NameEntry({ onSubmit }: NameEntryProps) {
   const [name, setName] = useState("");
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,11 +22,13 @@ export default function NameEntry({ onSubmit }: NameEntryProps) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-indigo-950 p-4">
+      {showTutorial && <Tutorial onClose={() => setShowTutorial(false)} />}
+
       <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-md w-full border border-white/20">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold text-white mb-2">⚡ myZip</h1>
           <p className="text-purple-200 text-lg">
-            Connect the words. Find the groups.
+            Draw a path. Connect every cell.
           </p>
         </div>
 
@@ -57,12 +61,19 @@ export default function NameEntry({ onSubmit }: NameEntryProps) {
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 flex items-center justify-center gap-4">
+          <button
+            onClick={() => setShowTutorial(true)}
+            className="text-purple-300 hover:text-white transition-colors text-sm underline underline-offset-4"
+          >
+            How to Play
+          </button>
+          <span className="text-white/20">|</span>
           <Link
             href="/leaderboard"
             className="text-purple-300 hover:text-white transition-colors text-sm underline underline-offset-4"
           >
-            View Leaderboard
+            Leaderboard
           </Link>
         </div>
       </div>
