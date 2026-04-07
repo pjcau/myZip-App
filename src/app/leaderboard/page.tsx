@@ -72,7 +72,7 @@ export default function LeaderboardPage() {
                     {score.playerName}
                   </div>
                   <div className="text-purple-300 text-xs">
-                    {formatTime(score.time)} • {score.mistakes} mistakes •{" "}
+                    {formatTime(score.time)} • {score.puzzleId.split("-").slice(0, 2).join(" ")} •{" "}
                     {new Date(score.date).toLocaleDateString()}
                   </div>
                 </div>

@@ -24,7 +24,6 @@ export default function Home() {
 
   const handleGameEnd = async (
     score: number,
-    mistakes: number,
     time: number,
     puzzleId: string
   ) => {
@@ -32,13 +31,7 @@ export default function Home() {
       await fetch("/api/scores", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          playerName,
-          puzzleId,
-          time,
-          mistakes,
-          score,
-        }),
+        body: JSON.stringify({ playerName, puzzleId, time, score }),
       });
     } catch {
       // Score saving failed silently

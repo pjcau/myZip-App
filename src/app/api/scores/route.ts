@@ -10,8 +10,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const body = await request.json();
-
-  const { playerName, puzzleId, time, mistakes, score } = body;
+  const { playerName, puzzleId, time, score } = body;
 
   if (!playerName || !puzzleId || score === undefined) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
@@ -22,7 +21,6 @@ export async function POST(request: Request) {
     playerName: playerName.slice(0, 20),
     puzzleId,
     time,
-    mistakes,
     score,
     date: new Date().toISOString(),
   };

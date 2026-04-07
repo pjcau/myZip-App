@@ -1,24 +1,13 @@
+export interface Cell {
+  row: number;
+  col: number;
+}
+
 export interface Puzzle {
   id: string;
-  groups: Group[];
-}
-
-export interface Group {
-  name: string;
-  words: string[];
-  color: string;
-  difficulty: number; // 1-4
-}
-
-export interface GameState {
-  puzzle: Puzzle;
-  selectedWords: string[];
-  foundGroups: Group[];
-  attempts: number;
-  mistakes: number;
-  startTime: number;
-  endTime: number | null;
-  isComplete: boolean;
+  size: number; // grid size (e.g., 5 = 5x5)
+  anchors: { cell: Cell; value: number }[]; // fixed numbered cells
+  solution: Cell[]; // the correct path visiting all cells in order
 }
 
 export interface Score {
@@ -26,11 +15,6 @@ export interface Score {
   playerName: string;
   puzzleId: string;
   time: number; // seconds
-  mistakes: number;
   score: number;
   date: string;
-}
-
-export interface LeaderboardEntry extends Score {
-  rank: number;
 }
