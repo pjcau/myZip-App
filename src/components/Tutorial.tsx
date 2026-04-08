@@ -8,7 +8,7 @@ interface TutorialProps {
 
 const steps = [
   {
-    title: "Welcome to myZip!",
+    title: "Welcome to GLaDOS Zip!",
     description: "A path-drawing puzzle inspired by LinkedIn Zip. Your goal is to connect all cells in the grid with a single continuous path.",
     visual: (
       <div className="grid grid-cols-3 gap-1 w-40 mx-auto">

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "myZip - Word Puzzle Game",
-  description: "Connect words into groups. A fun word puzzle game inspired by LinkedIn Zip.",
+  title: "GLaDOS Zip - Path Puzzle Game",
+  description: "Draw a path through every cell. A fun puzzle game inspired by LinkedIn Zip.",
 };
 
 export default function RootLayout({

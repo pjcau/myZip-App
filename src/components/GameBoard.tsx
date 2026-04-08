@@ -191,7 +191,7 @@ export default function GameBoard({ playerName, onGameEnd }: GameBoardProps) {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <div>
-              <h1 className="text-2xl font-bold text-white">⚡ myZip</h1>
+              <h1 className="text-2xl font-bold text-white">⚡ GLaDOS Zip</h1>
               <p className="text-purple-300 text-sm">
                 Playing as{" "}
                 <span className="font-semibold text-white">{playerName}</span>
