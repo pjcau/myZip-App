@@ -1,18 +1,31 @@
 import { put, list } from "@vercel/blob";
 import { Score } from "@/types";
+import { readFileSync, writeFileSync, existsSync } from "fs";
+import { join } from "path";
 
 const SCORES_BLOB_KEY = "scores.json";
-
-// In-memory fallback for local dev without Blob token
-const inMemoryScores: Score[] = [];
+const LOCAL_SCORES_FILE = join(process.cwd(), ".scores.json");
 
 function hasBlobToken(): boolean {
   return !!process.env.BLOB_READ_WRITE_TOKEN;
 }
 
+function getLocalScores(): Score[] {
+  try {
+    if (!existsSync(LOCAL_SCORES_FILE)) return [];
+    return JSON.parse(readFileSync(LOCAL_SCORES_FILE, "utf-8"));
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalScores(scores: Score[]): void {
+  writeFileSync(LOCAL_SCORES_FILE, JSON.stringify(scores, null, 2));
+}
+
 export async function getScores(): Promise<Score[]> {
   if (!hasBlobToken()) {
-    return inMemoryScores;
+    return getLocalScores();
   }
 
   try {
@@ -29,7 +42,9 @@ export async function getScores(): Promise<Score[]> {
 
 export async function addScore(score: Score): Promise<void> {
   if (!hasBlobToken()) {
-    inMemoryScores.push(score);
+    const scores = getLocalScores();
+    scores.push(score);
+    saveLocalScores(scores);
     return;
   }
 

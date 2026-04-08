@@ -252,6 +252,7 @@ export default function GameBoard({ playerName, onGameEnd }: GameBoardProps) {
 
         {/* Game Grid */}
         <GameGrid
+          key={gameData.puzzleId}
           size={gameData.size}
           anchors={gameData.anchors}
           path={path}
